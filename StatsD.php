@@ -79,6 +79,11 @@ class StatsD {
         if (empty($sampledData)) { return; }
 
         // Wrap this in a try/catch - failures in any of this should be silently ignored
+        // @TODO We're using localhost/8125 here because that's what statsd.conf is set to
+        // we should probably try to read statsd.conf or some other config file but convention
+        // is good enough for now, esp. since we catch and fail silently.  Up to the dev to 
+        // make sure statsd is running
+        try {
             $fp = fsockopen("udp://localhost", 8125, $errno, $errstr);
             if (! $fp) { return; }
             foreach ($sampledData as $stat => $value) {
@@ -86,6 +91,8 @@ class StatsD {
                 fwrite($fp, "$stat:$value");
             }
             fclose($fp);
+        } catch (Exception $e) {
+        }
         echo $errno . "\t" . $errstr;
     }
 }
