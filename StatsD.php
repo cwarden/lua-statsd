@@ -87,12 +87,10 @@ class StatsD {
             $fp = fsockopen("udp://localhost", 8125, $errno, $errstr);
             if (! $fp) { return; }
             foreach ($sampledData as $stat => $value) {
-                echo "$stat:$value";
                 fwrite($fp, "$stat:$value");
             }
             fclose($fp);
         } catch (Exception $e) {
         }
-        echo $errno . "\t" . $errstr;
     }
 }
