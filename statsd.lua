@@ -1,4 +1,6 @@
 -- StatsD.php ported to lua
+-- A simple statsd client
+-- original from Joel Barciauskas (https://gist.github.com/1065177)
 
 local math = require "math"
 local os = require "os"
